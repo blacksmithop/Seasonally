@@ -1,0 +1,45 @@
+<body onload="feather.replace();">
+<script src="https://unpkg.com/feather-icons"></script>
+<link href="{{ url_for('static', path='/weather.css') }}" rel="stylesheet">
+<div class="container">
+  <div class="weather-side">
+    <div class="weather-gradient"></div>
+    <div class="date-container">
+      <h2 class="date-dayname">{{data['today']['day']}}</h2><span class="date-day">15 Jan 2019</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{data['city']}}, {{data['country']}}</span>
+    </div>
+    <div class="weather-container"><i class="weather-icon" data-feather={{data['today']['icon']}}></i>
+      <h1 class="weather-temp">{{data['today']['temp']}}K</h1>
+      <h3 class="weather-desc">{{data['today']['weather']}}</h3>
+    </div>
+  </div>
+  <div class="info-side">
+    <div class="today-info-container">
+      <div class="today-info">
+        <div class="precipitation"> <span class="title">PRESSURE</span><span class="value">
+          {{data['today']['pressure']}} hPa</span>
+          <div class="clear"></div>
+        </div>
+        <div class="humidity"> <span class="title">HUMIDITY</span><span class="value">
+          {{data['today']['humidity']}} %</span>
+          <div class="clear"></div>
+        </div>
+        <div class="wind"> <span class="title">WIND</span><span class="value">{{data['today']['wind']}} km/h</span>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+    <div class="week-container">
+      <ul class="week-list">
+        <li class="active"><i class="day-icon" data-feather={{data['climates'][0]}}></i><span class="day-name">{{data['daynames'][0]}}</span><span class="day-temp">{{data['days'][0]}}K</span></li>
+        <li><i class="day-icon" data-feather={{data['climates'][1]}}></i><span class="day-name">{{data['daynames'][1]}}</span><span class="day-temp">{{data['days'][1]}}K</span></li>
+        <li><i class="day-icon" data-feather={{data['climates'][2]}}></i><span class="day-name">{{data['daynames'][2]}}</span><span class="day-temp">{{data['days'][2]}}K</span></li>
+        <li><i class="day-icon" data-feather={{data['climates'][3]}}></i><span class="day-name">{{data['daynames'][3]}}</span><span class="day-temp">{{data['days'][3]}}K</span></li>
+        <div class="clear"></div>
+      </ul>
+    </div>
+    <div class="location-container">
+      <button class="location-button"> <i data-feather="map-pin"></i><span>Change location</span></button>
+    </div>
+  </div>
+</div>
+</body>
