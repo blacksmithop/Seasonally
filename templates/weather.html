@@ -5,7 +5,7 @@
   <div class="weather-side">
     <div class="weather-gradient"></div>
     <div class="date-container">
-      <h2 class="date-dayname">{{data['today']['day']}}</h2><span class="date-day">15 Jan 2019</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{data['city']}}, {{data['country']}}</span>
+      <h2 class="date-dayname">{{data['today']['day']}}</h2><span class="date-day">{{ data['today']['date'] }}</span><i class="location-icon" data-feather="map-pin"></i><span class="location">{{data['city']}}, {{data['country']}}</span>
     </div>
     <div class="weather-container"><i class="weather-icon" data-feather={{data['today']['icon']}}></i>
       <h1 class="weather-temp">{{data['today']['temp']}}K</h1>

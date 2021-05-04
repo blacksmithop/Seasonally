@@ -47,6 +47,7 @@ async def get_data(_data: dict) -> dict:
     day = datetime.now(_timezone).weekday()
     current = _data['list'][0]
     data['today'] = {
+        'date': datetime.now().strftime("%d %B %y"),
         'temp': current['main']['temp'],
         'day': weekdays[day],
         'pressure': current['main']['pressure'],
