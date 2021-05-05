@@ -1,16 +1,30 @@
 from pytz import country_timezones, timezone
 from aiohttp import ClientSession
 from fastapi import FastAPI, Request
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from datetime import datetime
 from os import getenv
 from fastapi.templating import Jinja2Templates
-
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from time import time
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request, exc):
+    return RedirectResponse("/")
+
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time()
+    response = await call_next(request)
+    process_time = time() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
 
 API_KEY = getenv('API_KEY')
 
@@ -78,7 +92,15 @@ async def get_data(_data: dict) -> dict:
 
 @app.get("/")
 async def index(request: Request):
-    data = await _request(city="Kannur")
+    return templates.TemplateResponse("home.html", context={"request": request})
+
+
+@app.get("/weather")
+async def weather(request: Request, city: str = "Kannur"):
+    city = "+".join(city.split())
+    data = await _request(city=city)
+    if int(data.get('cod')) == 404:
+        return RedirectResponse(url='/')
     data = await get_data(_data=data)
     context = {"request": request, 'data': data}
     return templates.TemplateResponse("weather.html", context=context)
