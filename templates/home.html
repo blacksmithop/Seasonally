@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+<link href="{{ url_for('static', path='/home.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', path='/home.js') }}"></script>
 </head>
-<body>
-$END$
-</body>
-</html>
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<form id="content" action="/weather", method="GET">
+  <input type="text" name="city" class="input" id="search-input">
+  <button type="reset" class="search" id="search-btn"></button>
+</form>
