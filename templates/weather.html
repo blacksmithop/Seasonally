@@ -38,7 +38,10 @@
       </ul>
     </div>
     <div class="location-container">
-      <button class="location-button"> <i data-feather="map-pin"></i><span>Change location</span></button>
+      <form id="content" action="/weather", method="GET">
+      <input type="hidden" name="ip" class="input" id="search-input" value={{data['client']}}>
+      <button class="location-button"> <i data-feather="map-pin"></i><span>My Weather</span></button>
+      </form>
     </div>
   </div>
 </div>

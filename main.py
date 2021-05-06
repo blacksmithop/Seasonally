@@ -8,6 +8,7 @@ from os import getenv
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from time import time
+from typing import Optional
 
 app = FastAPI()
 
@@ -27,7 +28,7 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 API_KEY = getenv('API_KEY')
-
+IP_KEY = getenv('IP_KEY')
 weekdays = {
     0: "Sun",
     1: "Mon",
@@ -96,11 +97,21 @@ async def index(request: Request):
 
 
 @app.get("/weather")
-async def weather(request: Request, city: str = "Kannur"):
+async def weather(request: Request, city: Optional[str] = None, ip: Optional[str] = None):
+    if ip:
+        if ip == "127.0.0.1":
+            city = "Kannur"
+        else:
+            URL = f"http://api.ipstack.com/{ip}?access_key={IP_KEY}&format=1"
+            async with ClientSession() as cs:
+                async with cs.get(URL) as r:
+                    res = await r.json()
+            city = res['city']
     city = "+".join(city.split())
     data = await _request(city=city)
     if int(data.get('cod')) == 404:
         return RedirectResponse(url='/')
     data = await get_data(_data=data)
+    data['client'] = request.client.host
     context = {"request": request, 'data': data}
     return templates.TemplateResponse("weather.html", context=context)
