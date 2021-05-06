@@ -1,0 +1,7 @@
+{
+  "name": "Seasonally",
+  "description": "A Weather Monitoring app, built with FastAPI.",
+  "image": "heroku/python",
+  "repository": "https://github.com/blacksmithop/seasonally",
+  "keywords": ["python", "fastapi", "weather" ]
+}
